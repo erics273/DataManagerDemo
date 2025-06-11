@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-import com.pluralsight.dao.NorthwindDataManager;
+import com.pluralsight.dao.ProductDao;
 import com.pluralsight.models.Product;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -28,13 +28,36 @@ public class App {
         dataSource.setUrl("jdbc:mysql://localhost:3306/Northwind");
         dataSource.setUsername(username);
         dataSource.setPassword(password);
-        // Create the NorthwindDataManager
-        NorthwindDataManager dataManager = new NorthwindDataManager(dataSource);
+        // Create the ProductDataManager
+
+        ProductDao dataManager = new ProductDao(dataSource);
 
         // Interact with the database
         List<Product> products = dataManager.getAllProducts();
         // display products
-        products.forEach(System.out::println);
+        for (Product product : products)
+        {
+            System.out.println("ID: " + product.getProductId());
+            System.out.println("Name: " + product.getProductName());
+            System.out.println("Price: $" + product.getUnitPrice());
+            System.out.println("~~~~~~~~~~~~~~"); // blank line between products
+        }
+
+
+        System.out.println("----------------------------------");
+
+        // Interact with the database
+        List<Product> productsByCat = dataManager.getProductsByCategoryId(1);
+        // display products
+        for (Product product : productsByCat)
+        {
+            System.out.println("ID: " + product.getProductId());
+            System.out.println("Name: " + product.getProductName());
+            System.out.println("Price: $" + product.getUnitPrice());
+            System.out.println("CategoryID: $" + product.getCategoryID());
+            System.out.println("CategoryName: $" + product.getCategoryName());
+            System.out.println("~~~~~~~~~~~~~~"); // blank line between products
+        }
 
         //close the datasource
         try {

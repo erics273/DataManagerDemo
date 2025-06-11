@@ -54,8 +54,8 @@ public class App {
             System.out.println("ID: " + product.getProductId());
             System.out.println("Name: " + product.getProductName());
             System.out.println("Price: $" + product.getUnitPrice());
-            System.out.println("CategoryID: $" + product.getCategoryID());
-            System.out.println("CategoryName: $" + product.getCategoryName());
+            System.out.println("CategoryID: " + product.getCategoryID());
+            System.out.println("CategoryName: " + product.getCategoryName());
             System.out.println("~~~~~~~~~~~~~~"); // blank line between products
         }
 

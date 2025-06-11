@@ -32,6 +32,15 @@ public class App {
 
         ProductDao dataManager = new ProductDao(dataSource);
 
+        System.out.println("-----------Get ALL Products---------");
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         // Interact with the database
         List<Product> products = dataManager.getAllProducts();
         // display products
@@ -43,8 +52,14 @@ public class App {
             System.out.println("~~~~~~~~~~~~~~"); // blank line between products
         }
 
+        System.out.println("-----------Get Products By Category---------");
 
-        System.out.println("----------------------------------");
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         // Interact with the database
         List<Product> productsByCat = dataManager.getProductsByCategoryId(1);

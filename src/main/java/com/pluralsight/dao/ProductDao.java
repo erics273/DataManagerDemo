@@ -4,10 +4,7 @@ import com.pluralsight.models.Product;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +16,152 @@ public class ProductDao {
     //our constructor that does the sets up the BasicDataSource passed in
     public ProductDao(BasicDataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public void addProduct() {
+
+        String title = "eric magic potion";
+
+        //start our query for our prepared statement
+        String sql = "INSERT INTO `northwind`.`Products`\n" +
+                "(`ProductName`,\n" +
+                "`SupplierID`,\n" +
+                "`CategoryID`,\n" +
+                "`QuantityPerUnit`,\n" +
+                "`UnitPrice`,\n" +
+                "`UnitsInStock`,\n" +
+                "`UnitsOnOrder`,\n" +
+                "`ReorderLevel`)\n" +
+                "VALUES\n" +
+                "('"+ title +"',\n" +
+                "1,\n" +
+                "1,\n" +
+                "1,\n" +
+                "5.99,\n" +
+                "5,\n" +
+                "0,\n" +
+                "2);\n";
+
+        //try with resources to handle closing our resources properly
+        try (
+                //generate the connection from the datasource for this query
+                Connection conn = dataSource.getConnection();
+                //create our prepared statement
+                PreparedStatement statement = conn.prepareStatement(sql);
+                //execute our statement to get the results
+
+        ) {
+            int rowAffectedCount = statement.executeUpdate();
+            //return the ArrayList of Products
+            System.out.println(rowAffectedCount);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void updateAProduct() {
+
+        //start our query for our prepared statement
+        String sql =
+                """
+                UPDATE Products SET ProductName = 'some other other title' WHERE ProductID in (79, 78, 80);
+                """;
+
+        //try with resources to handle closing our resources properly
+        try (
+                //generate the connection from the datasource for this query
+                Connection conn = dataSource.getConnection();
+                //create our prepared statement
+                PreparedStatement statement = conn.prepareStatement(sql);
+                //execute our statement to get the results
+
+        ) {
+            int rowAffectedCount = statement.executeUpdate();
+            //return the ArrayList of Products
+            System.out.println(rowAffectedCount);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void deleteProducts() {
+
+        //start our query for our prepared statement
+        String sql =
+                """
+                DELETE FROM Products WHERE ProductID >= 78;
+                """;
+
+        //try with resources to handle closing our resources properly
+        try (
+                //generate the connection from the datasource for this query
+                Connection conn = dataSource.getConnection();
+                //create our prepared statement
+                PreparedStatement statement = conn.prepareStatement(sql);
+                //execute our statement to get the results
+
+        ) {
+            int rowAffectedCount = statement.executeUpdate();
+            //return the ArrayList of Products
+            System.out.println(rowAffectedCount);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void addProductButReturnKeys() {
+
+        String title = "eric magic potion";
+
+        //start our query for our prepared statement
+        String sql = "INSERT INTO `northwind`.`Products`\n" +
+                "(`ProductName`,\n" +
+                "`SupplierID`,\n" +
+                "`CategoryID`,\n" +
+                "`QuantityPerUnit`,\n" +
+                "`UnitPrice`,\n" +
+                "`UnitsInStock`,\n" +
+                "`UnitsOnOrder`,\n" +
+                "`ReorderLevel`)\n" +
+                "VALUES\n" +
+                "('"+ title +"',\n" +
+                "1,\n" +
+                "1,\n" +
+                "1,\n" +
+                "5.99,\n" +
+                "5,\n" +
+                "0,\n" +
+                "2);\n";
+
+        //try with resources to handle closing our resources properly
+        try (
+                //generate the connection from the datasource for this query
+                Connection conn = dataSource.getConnection();
+                //create our prepared statement
+                PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                //execute our statement to get the results
+
+        ) {
+            int rowAffectedCount = statement.executeUpdate();
+            //return the ArrayList of Products
+            System.out.println(rowAffectedCount);
+
+            try (ResultSet keys = statement.getGeneratedKeys() ){
+                // Iterate through the primary keys that were generated
+                while (keys.next()) {
+                    System.out.printf("%d key was added\n",
+                            keys.getLong(1));
+                } }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public List<Product> getAllProducts() {
@@ -82,6 +225,8 @@ public class ProductDao {
                 Connection conn = dataSource.getConnection();
                 //create our prepared statement
                 PreparedStatement statement = conn.prepareStatement(sql);
+
+
 
         ) {
 

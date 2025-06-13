@@ -17,7 +17,6 @@ public class App {
             System.exit(1);
         }
 
-
         // Get the username and password
         String username = args[0];
         String password = args[1];
@@ -30,7 +29,68 @@ public class App {
         dataSource.setPassword(password);
         // Create the ProductDataManager
 
+        //fire up the thing responsible for dealing with product data
         ProductDao dataManager = new ProductDao(dataSource);
+
+        System.out.println("-----------Attempt to update products---------");
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        dataManager.updateAProduct();
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("-----------Attempt to add a product but get keys created---------");
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        dataManager.addProductButReturnKeys();
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("-----------Attempt to add a product---------");
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        dataManager.addProduct();
+
+        //pause the app for a few seconds
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        dataManager.deleteProducts();
+
 
         System.out.println("-----------Get ALL Products---------");
 
@@ -44,6 +104,7 @@ public class App {
         // Interact with the database
         List<Product> products = dataManager.getAllProducts();
         // display products
+
         for (Product product : products)
         {
             System.out.println("ID: " + product.getProductId());
